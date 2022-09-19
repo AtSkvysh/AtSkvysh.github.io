@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="cardCanvas" width="315" height="520" style="border:1px solid #000000;">
+Your browser does not support the HTML canvas tag.
+</canvas>
+
+<p></p>
+<label for="suitPick">Patron:</label>
+<select name="suitPick" id="suitPick">
+</select>
+<p></p>
+
+<label for="framePick">Action/Agent:</label>
+<select name="framePick" id="framePick">
+</select>
+<p></p>
+
+<div id="agentFrame">
+<label for="agentPick">Agent type:</label>
+<select name="agentPick" id="agentPick">
+</select>
+<label for="agentValue">Health value:</label>
+<input type="text" id="agentValue" name="agentValue" value="0" size="2" maxlength="2" placeholder="0"><br><br>
+</div>
+
+<label for="bannerPick">Banner:</label>
+<select name="bannerPick" id="bannerPick">
+</select>
+<p></p>
+
+<label for="artPick">Art:</label>
+<select name="artPick" id="artPick">
+</select>
+<p></p>
+
+<label for="costPick">Cost type:</label>
+<select name="costPick" id="costPick">
+  <option value="0">Power</option>
+  <option value="1">Gold</option>
+  <option value="2">Prestige</option>
+  <option value="3">None</option>
+</select>
+<label for="costValue">Cost value:</label>
+<input type="text" id="costValue" name="costValue" value="0" size="2" maxlength="2" placeholder="0"><br><br>
+
+<label for="playPick1">Play effect 1:</label>
+<select name="playPick1" id="playPick1">
+</select>
+
+<div id="playValue1Selection">
+<label for="playValue1">Value:</label>
+<input type="text" id="playValue1" name="playValue1" value="0" size="2" maxlength="2" placeholder="0"><br><br>
+</div>
+
+<div id="chooseOneTab">
+Choose between &nbsp;&nbsp;&nbsp;&nbsp;
+<label for="chooseOnePick1">Play effect 1:</label>
+<select name="chooseOnePick1" id="chooseOnePick1">
+</select>
+<label for="chooseOneValue1">Value:</label>
+<input type="text" id="chooseOneValue1" name="chooseOneValue1" value="0" size="2" maxlength="2" placeholder="0">
+&nbsp;&nbsp;OR &nbsp;&nbsp;
+<label for="chooseOnePick2">Play effect 2:</label>
+<select name="chooseOnePick2" id="chooseOnePick2">
+</select>
+<label for="chooseOneValue2">Value:</label>
+<input type="text" id="chooseOneValue2" name="chooseOneValue2" value="0" size="2" maxlength="2" placeholder="0"><br><br>
+</div>
+
+<div id="playSelection2">
+<label for="playPick2">Play effect 2:</label>
+<select name="playPick2" id="playPick2">
+</select>
+<label for="playValue2">Value:</label>
+<input type="text" id="playValue2" name="playValue2" value="0" size="2" maxlength="2" placeholder="0"><br><br>
+</div>
+
+<div id="playSelection3">
+<label for="playPick3">Play effect 3:</label>
+<select name="playPick3" id="playPick3">
+</select>
+<label for="playValue3">Value:</label>
+<input type="text" id="playValue3" name="playValue3" value="0" size="2" maxlength="2" placeholder="0"><br><br>
+</div>
+
+<label for="comboPick1">Combo effect 1:</label>
+<select name="comboPick1" id="comboPick1">
+</select>
+<label for="comboValue1">Value:</label>
+<input type="text" id="comboValue1" name="comboValue1" value="0" size="2" maxlength="2" placeholder="0">
+&nbsp;&nbsp;
+<label for="comboReq1">Combo requirement:</label>
+<input type="text" id="comboReq1" name="comboReq1" value="2" size="1" maxlength="1" placeholder="2"><br><br>
+
+<div id="comboSelection2">
+<label for="comboPick2">Combo effect 2:</label>
+<select name="comboPick2" id="comboPick2">
+</select>
+<label for="comboValue2">Value:</label>
+<input type="text" id="comboValue2" name="comboValue2" value="0" size="2" maxlength="2" placeholder="0">
+&nbsp;&nbsp;
+<label for="comboReq2">Combo requirement:</label>
+<input type="text" id="comboReq2" name="comboReq2" value="2" size="1" maxlength="1" placeholder="2"><br><br>
+</div>
+
+<div id="comboSelection3">
+<label for="comboPick3">Combo effect 3:</label>
+<select name="comboPick3" id="comboPick3">
+</select>
+<label for="comboValue3">Value:</label>
+<input type="text" id="comboValue3" name="comboValue3" value="0" size="2" maxlength="2" placeholder="0">
+&nbsp;&nbsp;
+<label for="comboReq3">Combo requirement:</label>
+<input type="text" id="comboReq3" name="comboReq3" value="2" size="1" maxlength="1" placeholder="2"><br><br>
+</div>
+
+<label for="cardName">Card name:</label>
+<input type="text" id="cardName" name="cardName" value="Name" size="30" maxlength="30" placeholder="Name">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<label for="cardName">Card ID:</label>
+<input type="text" id="cardID" name="cardID" value="" size="1" maxlength="1" placeholder="ID"><br><br>
+
+<p></p>
+<p><button onclick="drawCard()">Set</button></p>
+<p></p>
+<p><button onclick="resetCanvas()">Reset</button></p>
+
+<script>
+var suitList = ["Treasury", "Ansei Frandar Hunding", "Druid King", "Duke of Crows", "Grandmaster Delmene Hlaalu", "Psijic Loremaster Celarus", "Rajhin, the Purring Liar", "Red Eagle, King of the Reach", "Saint Pelin", "Sorcerer-King Orgnum", "Wild", "None"];
+const suitArt = ["generic", "hunding", "druidking", "blackfeather", "hlaalu", "psijic", "rajhin", "redeagle", "pelin", "orgnum", "wild", "none"];
+
+var frameList = ["Action", "Agent"];
+const frameArt = ["action", "agent"];
+const maskArt = ["action", "agent"];
+
+var agentList = ["Regular", "Taunt"];
+const agentArt = ["health", "taunt"];
+
+var bannerList = ["None", "Contract", "Curse"];
+const bannerArt = ["", "contract", "curse"];
+
+var cardList = ["Blackfeather Brigand", "Blackfeather Knave", "Blackfeather Knight", "Law of Sovereign Roost", "Murder of Crows", "Peck", "Pilfer", "Plunder", "Pool of Shadow", "Scratch", "Squawking Oratory", "Toll of Flesh", "Toll of Silver", "Hlaalu Councilor", "Currency Exchange", "Customs Seizure", "Ebony Mine", "Goods Shipment", "Hireling", "Hostile Takeover", "House Embassy", "House Marketplace", "Hlaalu Kinsman", "Hlaalu Kinsman Alternate", "Kwama Egg Mine", "Luxury Exports", "Oathman", "Ansei Assault", "Ansei's Victory", "Battle Meditation", "Conquest", "Grand Oratory", "Hel Shira Herald", "Hira's End", "March on Hattu", "No Shira Poet", "Shehai Summoning", "Warrior Wave", "Way of the Sword", "Ambush", "Barterer", "Blackmail", "Black Sacrament", "Gold", "Gold 2", "Harvest Season", "Imprisonment", "Ragpicker", "The Treasury", "Tithe", "Writ of Coin", "Ghostscale Sea Serpent", "King Orgnum's Command", "Maormer Boarding Party", "Maormer Cutter", "Pyandonean War Fleet", "Sea Elf Raid", "Sea Raider's Glory", "Sea Serpent Colossus", "Serpentguard Rider", "Serpentprow Schooner", "Snakeskin Freebooter", "Storm Shark Wavecaller", "Summerset Sacking", "Archer's Volley", "Bangkorai Sentries", "Banneret", "Fortify", "Knight Commander", "Knight Commander Alternate", "Knights of Saint Pelin", "Legion's Arrival", "The Porticullis", "Rally", "Reinforcements", "Shield Bearer", "Siege Weapon Volley", "The Armory", "Augur's Counsel", "Ceporah's Insight", "Psijic's Insight", "Mainland Inquiries", "Prescience", "Prophecy", "Sage's Counsel", "Scrying Globe", "The Dreaming Cave", "Time Mastery", "Psijic Apprentice", "Psijic Appentice Alternate", "Psijic Relicmaster", "Bag of Tricks", "Bewilderment", "Grand Larceny", "Jarring Lullaby", "Jeering Shadow", "Moonlit Iluusion", "Pounce and Profit", "Prowling Shadow", "Ring's Guile", "Sleight of Hand", "Shadow's Slumber", "Stubborn Shadow", "Swipe", "Twilight Revelry", "Blood Sacrifice", "Bloody Offering", "Bonfire", "Briarheart Ritual", "Clan-Witch", "Elder Witch", "Hagraven", "Hagraven Matron", "Imperial Plunder", "Imperial Spoils", "Karth Man-hunter", "Midnight Raid", "War Song"];
+
+const cardArt = ["blackfeather_brigand", "blackfeather_knave", "blackfeather_knight", "blackfeather_law-of-sovereign-roost", "blackfeather_murder-of-crows", "blackfeather_peck", "blackfeather_pilfer", "blackfeather_plunder", "blackfeather_pool-of-shadow", "blackfeather_scratch", "blackfeather_squawkingoratory", "blackfeather_toll-of-flesh", "blackfeather_toll-of-silver", "hlaalu_councilor", "hlaalu_currency-exchange", "hlaalu_customs-seizure", "hlaalu_ebony-mine", "hlaalu_goods-shipment", "hlaalu_hireling", "hlaalu_hostile-takeover", "hlaalu_house-embassy", "hlaalu_house-marketplace", "hlaalu_kinsman", "hlaalu_kinsman_alternate", "hlaalu_kwama-egg-mine", "hlaalu_luxury-exports", "hlaalu_oathman", "hunding_ansei-assault", "hunding_anseis-victory", "hunding_battle-meditation", "hunding_conquest", "hunding_grand-oratory", "hunding_hel-shira-herald", "hunding_hiras-end", "hunding_march-on-hattu", "hunding_no-shira-poet", "hunding_shehai-summoning", "hunding_warrior-wave", "hunding_way-of-the-sword", "neutral_ambush", "neutral_barterer", "neutral_blackmail", "neutral_black-sacrament", "neutral_gold", "neutral_gold2", "neutral_harvest-season", "neutral_imprisonment", "neutral_ragpicker", "neutral_the-treasury", "neutral_tithe", "neutral_writ-of-coin", "orgnum_ghostscale-sea-serpent", "orgnum_king-orgnums-command", "orgnum_maormer-boarding-party", "orgnum_maormer-cutter", "orgnum_pyandonean-war-fleet", "orgnum_sea-elf-raid", "orgnum_sea-raiders-glory", "orgnum_sea-serpent-colossus", "orgnum_serpentguard-rider", "orgnum_serpentprow-schooner", "orgnum_snakeskin-freebooter", "orgnum_storm-shark-wavecaller", "orgnum_summerset-sacking", "pelin_archers-volley", "pelin_bangkorai-sentries", "pelin_banneret", "pelin_fortify-brace", "pelin_knights-commander-1", "pelin_knights-commander-2", "pelin_knights-of-stpelin", "pelin_legions-arrival", "pelin_porticullis", "pelin_rally", "pelin_reinforcements", "pelin_shield-bearer", "pelin_siege-weapon-volley", "pelin_the-armory", "psijic_augurs-counsel", "psijic_ceporahs-insight", "psijic_insight", "psijic_mainland-inquiries", "psijic_prescience", "psijic_prophecy", "psijic_sage-counsel", "psijic_scrying-globe", "psijic_the-dreaming-cave", "psijic_time-mastery", "psijic-apprentice", "psijic-apprentice_alternate", "psijic-relicmaster", "rahjin_bag-of-tricks", "rahjin_bewilderment", "rahjin_grand-larceny", "rahjin_jarring-lullaby", "rahjin_jeering-shadow", "rahjin_moonlit-illusion", "rahjin_pounce-and-profit", "rahjin_prowling-shadow", "rahjin_rings-guile", "rahjin_sleight-of-hand", "rahjin_spellbound-slumber", "rahjin_stubborn-shadow", "rahjin_swipe", "rahjin_twilight-revelry", "reach_blood-sacrifice", "reach_bloody-offering", "reach_bonfire", "reach_briarheart_ritual", "reach_clan-witch", "reach_elder-witch", "reach_hagraven", "reach_hagraven-matron", "reach_imperial-plunder", "reach_imperial-spoils", "reach_karth-man-hunter", "reach_midnight-raid", "reach_war-song"];
+
+var iconList = ["None", "Acquire Cards", "Agent Self-heal", "Agent to Pile", "Bonus Patron Interaction", "Choose One", "Create Card", "Remove", "Destroy", "Discard Cards", "Draw Cards", "Gain Power", "Gain Gold", "Gain Prestige", "KO Agent", "Lose Power", "Lose Gold", "Lose Prestige", "Refresh", "Toss"];
+const iconArt = ["none", "acquirecards", "agentselfheal", "agenttopile", "bonuspatroninteraction", "chooseone", "createcards", "cullfromdocks", "destroycards", "discardcards", "drawcards", "gainresources_0", "gainresources_1", "gainresources_2", "koagent", "loseresources_0", "loseresources_1", "loseresources_2", "refreshcards", "tosscards"];
+
+var c = document.getElementById("cardCanvas");
+var ctx = c.getContext("2d");
+
+var suitSelection = document.getElementById("suitPick");
+for (var x in suitList) {
+  suitSelection.options[suitSelection.options.length] = new Option(suitList[x], x);
+}
+
+var artSelection = document.getElementById("artPick");
+for (var x in cardList) {
+  artSelection.options[artSelection.options.length] = new Option(cardList[x], x);
+}
+
+var frameSelection = document.getElementById("framePick");
+for (var x in frameList) {
+  frameSelection.options[frameSelection.options.length] = new Option(frameList[x], x);
+}
+
+var agentSelection = document.getElementById("agentPick");
+for (var x in agentList) {
+  agentSelection.options[agentSelection.options.length] = new Option(agentList[x], x);
+}
+
+var bannerSelection = document.getElementById("bannerPick");
+for (var x in bannerList) {
+  bannerSelection.options[bannerSelection.options.length] = new Option(bannerList[x], x);
+}
+
+var playPick1Selection = document.getElementById("playPick1");
+for (var x in iconList) {
+  playPick1Selection.options[playPick1Selection.options.length] = new Option(iconList[x], x);
+}
+
+var playPick2Selection = document.getElementById("playPick2");
+for (var x in iconList) {
+  if (x != 5){
+    playPick2Selection.options[playPick2Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var playPick3Selection = document.getElementById("playPick3");
+for (var x in iconList) {
+  if (x != 5){
+    playPick3Selection.options[playPick3Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var comboPick1Selection = document.getElementById("comboPick1");
+for (var x in iconList) {
+  if (x != 5){
+    comboPick1Selection.options[comboPick1Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var comboPick2Selection = document.getElementById("comboPick2");
+for (var x in iconList) {
+  if (x != 5){
+    comboPick2Selection.options[comboPick2Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var comboPick3Selection = document.getElementById("comboPick3");
+for (var x in iconList) {
+  if (x != 5){
+    comboPick3Selection.options[comboPick3Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var chooseOnePick1Selection = document.getElementById("chooseOnePick1");
+for (var x in iconList) {
+  if (x != 5){
+    chooseOnePick1Selection.options[chooseOnePick1Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var chooseOnePick2Selection = document.getElementById("chooseOnePick2");
+for (var x in iconList) {
+  if (x != 5){
+    chooseOnePick2Selection.options[chooseOnePick2Selection.options.length] = new Option(iconList[x], x);
+  }
+}
+
+var framePick = document.getElementById("framePick");
+var agentFrame = document.getElementById("agentFrame");
+var playPick1 = document.getElementById("playPick1");
+var playSelection2 = document.getElementById("playSelection2");
+var playSelection3 = document.getElementById("playSelection3");
+var comboSelection2 = document.getElementById("comboSelection2");
+var comboSelection3 = document.getElementById("comboSelection3");
+var chooseOneTab = document.getElementById("chooseOneTab");
+var playValue1Selection = document.getElementById("playValue1Selection");
+playValue1Selection.style.display = "block";
+chooseOneTab.style.display = "none";
+playSelection2.style.display = "none";
+playSelection3.style.display = "none";
+comboSelection2.style.display = "none";
+comboSelection3.style.display = "none";
+agentFrame.style.display = "none";
+
+framePick.onchange = function() {
+  var suffix = frameArt[document.getElementById("framePick").value];
+  if (suffix == "agent"){
+    agentFrame.style.display = "block";
+  } else {
+    agentFrame.style.display = "none";
+  }
+}
+
+playPick1.onchange = function() {
+  var suffix = iconArt[document.getElementById("playPick1").value];
+  if (suffix != "none"){
+    if (suffix == "chooseone"){
+      playValue1Selection.style.display = "none";
+      chooseOneTab.style.display = "block";
+    } else {
+      playValue1Selection.style.display = "block";
+      chooseOneTab.style.display = "none";
+    }
+    playSelection2.style.display = "block";
+  } else {
+    playSelection2.style.display = "none";
+  }
+}
+
+playPick2.onchange = function() {
+  var suffix = iconArt[document.getElementById("playPick2").value];
+  if (suffix != "none"){
+    playSelection3.style.display = "block";
+  } else {
+    playSelection3.style.display = "none";
+  }
+}
+
+comboPick1.onchange = function() {
+  var suffix = iconArt[document.getElementById("comboPick1").value];
+  if (suffix != "none"){
+    comboSelection2.style.display = "block";
+  } else {
+    comboSelection2.style.display = "none";
+  }
+}
+
+comboPick2.onchange = function() {
+  var suffix = iconArt[document.getElementById("comboPick2").value];
+  if (suffix != "none"){
+    comboSelection3.style.display = "block";
+  } else {
+    comboSelection3.style.display = "none";
+  }
+}
+
+function addSuit() {
+  var suffix = suitArt[document.getElementById("suitPick").value];
+  var img = new Image();
+  img.src = 'art/suits/tributepatronsuitatlas_'+ suffix +'.png';
+  ctx.drawImage(img,10,10);
+}
+
+function addSuitIcon() {
+  var suffix = suitArt[document.getElementById("suitPick").value];
+  var img = new Image();
+  img.src = 'art/suits/tot_icon_'+ suffix +'.png';
+  ctx.drawImage(img,230,70);
+}
+
+function addFrame() {
+  var suffix = frameArt[document.getElementById("framePick").value];
+  var img = new Image();
+  img.src = 'art/masks/tributecardframe_'+ suffix +'.png';
+  ctx.drawImage(img,23,25);
+}
+
+function addMask() {
+  var suffix = maskArt[document.getElementById("framePick").value];
+  var img = new Image();
+  img.src = 'art/masks/tributecardframe_'+ suffix +'_mask_inverse.png';
+  ctx.drawImage(img,23,25);
+}
+
+function addBanner(){
+  var suffix = bannerArt[document.getElementById("bannerPick").value];
+  if (suffix != ""){
+    var img = new Image();
+    img.src = 'art/other/tributecard'+ suffix +'banner.png';
+    ctx.drawImage(img,10,10);
+  }
+}
+
+function addArt() {
+  var suffix = cardArt[document.getElementById("artPick").value];
+  var img = new Image();
+  img.src = 'art/cards/tot_'+ suffix +'.png';
+  ctx.drawImage(img,20,10);
+}
+
+function addCost() {
+  var banner = bannerArt[document.getElementById("bannerPick").value];
+  var costValue = document.getElementById("costValue").value;
+  var suffix = document.getElementById("costPick").value;
+  var img = new Image();
+  if (banner == "contract"){
+    img.src = 'art/other/tributecardcost_contract_'+ suffix +'.png';
+  } else {
+    img.src = 'art/other/tributecardcost_'+ suffix +'.png';
+  }
+  ctx.drawImage(img,86,-5);
+  if (suffix < 3){
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText(costValue, 150, 68);
+  }
+}
+
+function addHealth() {
+  var isAgent = frameArt[document.getElementById("framePick").value];
+  if (isAgent == "agent"){
+    var healthValue = document.getElementById("agentValue").value;
+    var suffix = agentArt[document.getElementById("agentPick").value];
+    var img = new Image();
+    img.src = 'art/other/tributecarddefeatbanner_'+ suffix +'.png';
+    ctx.drawImage(img,119,430);
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText(healthValue, 150, 468);
+  }
+}
+
+function addCardID() {
+  var cardID = document.getElementById("cardID").value;
+  if (cardID != ""){
+    var img = new Image();
+    img.src = 'art/icons/tributemechaniccardframe_activation_small_single.png';
+    ctx.drawImage(img,10,80);
+    ctx.font = "bold 16px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText(cardID, 42, 118);
+  }
+}
+
+function addName() {
+  var cardName = document.getElementById("cardName").value;
+  var img = new Image();
+  img.src = 'art/other/tributecardnamebanner.png';
+  ctx.drawImage(img,20,390);
+  ctx.font = "20px Arial";
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.fillText(cardName, 150, 415);
+}
+
+function addPlayMechanic1() {
+  var playValue = document.getElementById("playValue1").value;
+  var suffix = iconArt[document.getElementById("playPick1").value];
+  if (suffix != "none"){
+    if (suffix == "chooseone"){
+      var suffixChooseOne = iconArt[document.getElementById("chooseOnePick1").value];
+      playValue = document.getElementById("chooseOneValue1").value;
+      var img = new Image();
+      img.src = 'art/icons/tributemechaniccardframe_activation_large_single.png';
+      ctx.drawImage(img,15,130);
+
+      img = new Image();
+      img.src = 'art/icons/tributemechaniccarddisplay_'+ suffixChooseOne +'.png';
+      ctx.drawImage(img,14,145);
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(playValue, 53, 169);
+
+      suffixChooseOne = iconArt[document.getElementById("chooseOnePick2").value];
+      playValue = document.getElementById("chooseOneValue2").value;
+      var img = new Image();
+      img.src = 'art/icons/tributemechaniccardframe_activation_large_single.png';
+      ctx.drawImage(img,15,175);
+
+      img = new Image();
+      img.src = 'art/icons/tributemechaniccarddisplay_'+ suffixChooseOne +'.png';
+      ctx.drawImage(img,14,190);
+
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(playValue, 53, 214);
+      return true;
+    } else {
+      var img = new Image();
+      img.src = 'art/icons/tributemechaniccardframe_activation_large_single.png';
+      ctx.drawImage(img,15,130);
+      img = new Image();
+      img.src = 'art/icons/tributemechaniccarddisplay_'+ suffix +'.png';
+      ctx.drawImage(img,14,145);
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(playValue, 53, 169);
+      return true;
+    }
+  } else {
+    return false;
+  }
+  return false;
+}
+
+function addPlayMechanic2(){
+  var playValue = document.getElementById("playValue2").value;
+  var suffix = iconArt[document.getElementById("playPick2").value];
+  if (suffix != "none"){
+    var img = new Image();
+    img.src = 'art/icons/tributemechaniccardframe_activation_large_single.png';
+    var img2 = new Image();
+    img2.src = 'art/icons/tributemechaniccarddisplay_'+ suffix +'.png';
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    var y = 0;
+    var suffix2 = iconArt[document.getElementById("playPick1").value];
+    if (suffix2 != "chooseone"){
+      y = 64;
+    } else {
+      y = 109;
+    }
+    ctx.drawImage(img,15,130+y);
+    ctx.drawImage(img2,14,145+y);
+    ctx.fillText(playValue, 53, 169+y);
+    return true;
+  } else {
+    return false;
+  }
+  return false;
+}
+
+function addPlayMechanic3(){
+  var playValue = document.getElementById("playValue3").value;
+  var suffix = iconArt[document.getElementById("playPick3").value];
+  if (suffix != "none"){
+    var img = new Image();
+    img.src = 'art/icons/tributemechaniccardframe_activation_large_single.png';
+    var img2 = new Image();
+    img2.src = 'art/icons/tributemechaniccarddisplay_'+ suffix +'.png';
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    var y = 0;
+    var suffix2 = iconArt[document.getElementById("playPick1").value];
+    if (suffix2 != "chooseone"){
+      y = 128;
+    } else {
+      y = 173;
+    }
+    ctx.drawImage(img,15,130+y);
+    ctx.drawImage(img2,14,145+y);
+    ctx.fillText(playValue, 53, 169+y);
+    return true;
+  } else {
+    return false;
+  }
+  return false;
+}
+
+function addComboMechanic1() {
+  var comboValue = document.getElementById("comboValue1").value;
+  var comboReq = document.getElementById("comboReq1").value;
+  var suffix = iconArt[document.getElementById("comboPick1").value];
+  if (suffix != "none"){
+    var img = new Image();
+    img.src = 'art/icons/tributemechaniccardframe_combo_large_single.png';
+    ctx.drawImage(img,230,130);
+    img = new Image();
+    img.src = 'art/icons/tributemechaniccarddisplay_'+ suffix +'.png';
+    ctx.drawImage(img,229,145);
+    img = new Image();
+    img.src = 'art/icons/tributemechaniccombopip_full.png';
+    if (comboReq == "3") {
+      ctx.drawImage(img,254,180);
+    } else if (comboReq == "4") {
+      ctx.drawImage(img,246,180);
+      ctx.drawImage(img,262,180);
+    }
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText(comboValue, 270, 169);
+    return true;
+  } else {
+    return false;
+  }
+  return false;
+}
+
+function addComboMechanic2() {
+  var comboValue = document.getElementById("comboValue2").value;
+  var comboReq = document.getElementById("comboReq2").value;
+  var suffix = iconArt[document.getElementById("comboPick2").value];
+  if (suffix != "none"){
+    var y = 64;
+    var img = new Image();
+    img.src = 'art/icons/tributemechaniccardframe_combo_large_single.png';
+    ctx.drawImage(img,230,130+y);
+    img = new Image();
+    img.src = 'art/icons/tributemechaniccarddisplay_'+ suffix +'.png';
+    ctx.drawImage(img,229,145+y);
+    img = new Image();
+    img.src = 'art/icons/tributemechaniccombopip_full.png';
+    if (comboReq == "3") {
+      ctx.drawImage(img,254,180+y);
+    } else if (comboReq == "4") {
+      ctx.drawImage(img,246,180+y);
+      ctx.drawImage(img,262,180+y);
+    }
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText(comboValue, 270, 169+y);
+    return true;
+  } else {
+    return false;
+  }
+  return false;
+}
+
+function addComboMechanic3() {
+  var comboValue = document.getElementById("comboValue3").value;
+  var comboReq = document.getElementById("comboReq3").value;
+  var suffix = iconArt[document.getElementById("comboPick3").value];
+  if (suffix != "none"){
+    var y = 128;
+    var img = new Image();
+    img.src = 'art/icons/tributemechaniccardframe_combo_large_single.png';
+    ctx.drawImage(img,230,130+y);
+    img = new Image();
+    img.src = 'art/icons/tributemechaniccarddisplay_'+ suffix +'.png';
+    ctx.drawImage(img,229,145+y);
+    img = new Image();
+    img.src = 'art/icons/tributemechaniccombopip_full.png';
+    if (comboReq == "3") {
+      ctx.drawImage(img,254,180+y);
+    } else if (comboReq == "4") {
+      ctx.drawImage(img,246,180+y);
+      ctx.drawImage(img,262,180+y);
+    }
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText(comboValue, 270, 169+y);
+    return true;
+  } else {
+    return false;
+  }
+  return false;
+}
+
+
+function resetCanvas() {
+  ctx.clearRect(0, 0, 315, 520);
+}
+
+function drawCard(){
+  resetCanvas();
+  addMask();
+  ctx.globalCompositeOperation = 'source-in';
+  addArt();
+  ctx.globalCompositeOperation = 'destination-over';
+  addFrame();
+  addSuit();
+  ctx.globalCompositeOperation = 'source-over';
+  addBanner();
+  addSuitIcon();
+  addCardID();
+  addCost();
+  addHealth();
+  addName();
+  if (addPlayMechanic1()){
+    if (addPlayMechanic2()){
+      addPlayMechanic3();
+    }
+  }
+  if (addComboMechanic1()){
+    if (addComboMechanic2()){
+      addComboMechanic3();
+    }
+  }
+}
+</script>
+
+</body>
+</html>
+
