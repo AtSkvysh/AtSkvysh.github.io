@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.columnLeft {
+  float: left;
+  width: 30%;
+  padding: 10px;
+}
+
+.columnRight {
+  float: left;
+  width: 70%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
 <body>
 
-<canvas id="cardCanvas" width="315" height="520" style="border:1px solid #000000;">
-Your browser does not support the HTML canvas tag.
-</canvas>
+<div class="row">
+  <div class="columnLeft">
+    <canvas id="cardCanvas" width="315" height="520" style="border:1px solid #000000;">
+    Your browser does not support the HTML canvas tag.
+    </canvas>
+    <br><br>
+    Javascript-powered Tales of Tribute card maker.
+    <br><br>
+    All art is owned by ZeniMax Media Inc.
+    <br><br>
+    This is a beta version which contains all card art and patrons existing in the files along     with card mechanics currently present in game. Placement coordinate fine-tuning, UI     formatting and better instructions to come.
+    <br><br>
+    Images currently aren't pre-loaded. Double-click "Set".
+  </div>
 
+<div class="row">
+  <div class="columnRight">
 <p></p>
 <label for="suitPick">Patron:</label>
 <select name="suitPick" id="suitPick">
@@ -126,6 +167,8 @@ Choose between &nbsp;&nbsp;&nbsp;&nbsp;
 <p><button onclick="drawCard()">Set</button></p>
 <p></p>
 <p><button onclick="resetCanvas()">Reset</button></p>
+  </div>
+</div>
 
 <script>
 var suitList = ["Treasury", "Ansei Frandar Hunding", "Druid King", "Duke of Crows", "Grandmaster Delmene Hlaalu", "Psijic Loremaster Celarus", "Rajhin, the Purring Liar", "Red Eagle, King of the Reach", "Saint Pelin", "Sorcerer-King Orgnum", "Wild", "None"];
@@ -637,4 +680,3 @@ function drawCard(){
 
 </body>
 </html>
-
